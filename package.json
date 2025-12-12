@@ -1,0 +1,18 @@
+{
+  "name": "thai-law-assistant-chat-app",
+  "version": "1.0.0",
+  "description": "A secure, serverless chat application for Thai Law assistance using the Gemini API via a Netlify Function proxy.",
+  "main": "index.html",
+  "scripts": {
+    "start": "echo 'Run locally using Netlify CLI: netlify dev'"
+  },
+  "keywords": [
+    "gemini",
+    "ai",
+    "netlify",
+    "serverless",
+    "javascript"
+  ],
+  "author": "",
+  "license": "ISC"
+}
