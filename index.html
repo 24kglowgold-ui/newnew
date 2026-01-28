@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ผู้ช่วยกฎหมายไทย - Thai Law Assistant</title>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L248NH8B0M"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L248NH8B0M'); 
+    </script>
+
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1835664227836305');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1835664227836305&ev=PageView&noscript=1"
+    /></noscript>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7f9;
+        }
+        .chat-bubble-user {
+            background-color: #3b82f6; /* Blue-500 */
+            color: white;
+            border-radius: 1.5rem 1.5rem 0.5rem 1.5rem;
+        }
+        .chat-bubble-ai {
+            background-color: #ffffff;
+            color: #1f2937; /* Gray-800 */
+            border-radius: 1.5rem 1.5rem 1.5rem 0.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+        .sponsored-card {
+            background-color: #f0fdf4; /* Green-50 */
+            border: 1px solid #bbf7d0; /* Green-200 */
+            border-radius: 0.75rem;
+            margin-top: 1rem;
+            padding: 0.75rem;
+        }
+        /* Style for the LINE button colors */
+        .bg-line { background-color: #06C755; }
+        .hover-bg-line:hover { background-color: #05a647; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center p-4">
+
+    <div class="w-full max-w-4xl bg-white rounded-xl shadow-2xl flex flex-col h-[90vh]">
+        
+        <header class="p-4 border-b bg-gray-50 rounded-t-xl flex justify-between items-center shadow-md">
+            <h1 id="app-title" class="text-2xl font-bold text-gray-800">ผู้ช่วยกฎหมายไทย</h1>
+            
+            <div class="flex items-center space-x-2">
+                <label for="language-select" class="text-sm font-medium text-gray-600 hidden sm:block">ภาษา:</label>
+                <select id="language-select" class="p-2 rounded-lg border border-gray-300 bg-white shadow-inner focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out cursor-pointer text-sm">
+                    <option value="thai">🇹🇭 ไทย (Thai)</option>
+                    <option value="english">🇺🇸 English</option>
+                    <option value="chinese">🇨🇳 简体中文 (Simplified Chinese)</option>
+                </select>
+            </div>
+        </header>
+
+        <main id="chat-history" class="flex-grow overflow-y-auto p-6 space-y-4">
+        </main>
+
+        <footer class="p-4 border-t bg-gray-50 rounded-b-xl">
+            <div class="mb-3">
+                <a href="https://line.me/R/ti/p/@144cxjcp" target="_blank" id="line-button-main"
+                   class="flex items-center justify-center gap-2 bg-line hover-bg-line text-white font-bold py-3 px-6 rounded-xl shadow-lg transition duration-150 transform hover:scale-105">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg" alt="LINE" class="w-6 h-6">
+                    <span>เพิ่มเพื่อนใน LINE (ปรึกษาฟรี)</span>
+                </a>
+            </div>
+
+            <div id="paywall-container" class="hidden mb-4 p-4 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 rounded-lg shadow-sm">
+                <p id="paywall-text" class="font-bold mb-2 text-sm"></p>
+                <button
+                    id="pay-button"
+                    class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg shadow transition duration-150 transform hover:scale-105"
+                >
+                    Pay 20 THB for Unlimited Daily Access
+                </button>
+            </div>
+
+            <button
+                id="cta-button"
+                class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 mb-3 rounded-xl shadow-lg transition duration-150 ease-in-out transform hover:scale-105"
+            >
+                ติดต่อทนายความ
+            </button>
+            
+            <div id="input-container" class="flex space-x-3">
+                <input
+                    type="text"
+                    id="user-input"
+                    class="flex-grow p-3 border border-gray-300 rounded-xl shadow-inner focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+                    placeholder="พิมพ์คำถามทางกฎหมายของคุณ..."
+                    autocomplete="off"
+                >
+                <button
+                    id="send-button"
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transition duration-150 ease-in-out transform hover:scale-105 disabled:bg-gray-400 disabled:shadow-none"
+                >
+                    ส่ง
+                </button>
+            </div>
+
+            <div class="mt-4 text-center">
+                <a href="/privacy" id="privacy-link" class="text-[10px] text-gray-400 hover:text-blue-500 underline transition uppercase tracking-wider">
+                    Privacy Policy & Terms of Service (EN/TH/ZH)
+                </a>
+            </div>
+        </footer>
+    </div>
+
+    <div class="fixed bottom-6 right-6 z-50 sm:hidden">
+        <a href="https://line.me/R/ti/p/@144cxjcp" target="_blank" id="line-button-float"
+           class="flex items-center justify-center bg-line text-white p-4 rounded-full shadow-2xl hover-bg-line transition-all transform hover:scale-110 active:scale-95">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg" alt="LINE" class="w-8 h-8">
+        </a>
+    </div>
+
+    <div id="loading-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-white p-6 rounded-lg shadow-xl flex items-center space-x-3">
+            <svg class="animate-spin h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span id="loading-text" class="text-gray-700 font-medium">กำลังประมวลผล...</span>
+        </div>
+    </div>
+
+    <script>
+        const proxyUrl = "/.netlify/functions/gemini-proxy";
+        
+        const chatHistory = document.getElementById('chat-history');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+        const languageSelect = document.getElementById('language-select');
+        const appTitle = document.getElementById('app-title');
+        const loadingModal = document.getElementById('loading-modal');
+        const loadingText = document.getElementById('loading-text');
+        const ctaButton = document.getElementById('cta-button'); 
+        const paywallContainer = document.getElementById('paywall-container');
+        const paywallText = document.getElementById('paywall-text');
+        const payButton = document.getElementById('pay-button');
+        const inputContainer = document.getElementById('input-container');
+        const privacyLink = document.getElementById('privacy-link');
+
+        const isSponsoredTestGroup = Math.random() < 0.5;
+
+        const LANGUAGES = {
+            'thai': {
+                code: 'Thai', title: 'ผู้ช่วยกฎหมายไทย', placeholder: 'พิมพ์คำถามทางกฎหมายของคุณ...', sendButton: 'ส่ง', loading: 'กำลังประมวลผล...', ctaButton: 'ปรึกษาทนายความ',
+                paywallMsg: "คุณได้ใช้งานครบ 10 ข้อความสำหรับโควต้าฟรีในวันนี้แล้ว", 
+                verifiedTitle: "ทนายความที่ได้รับการยืนยัน",
+                verifiedSub: "ต้องการความมั่นใจ 100% หรือไม่? ปรึกษาผู้เชี่ยวชาญทันที",
+                greeting: "สวัสดีค่ะ ดิฉันคือผู้ช่วยกฎหมายไทย ผู้เชี่ยวชาญด้านกฎหมายไทยที่พร้อมให้ข้อมูลและคำแนะนำเบื้องต้นค่ะ ท่านมีคำถามใดเกี่ยวกับกฎหมายไทยหรือไม่คะ?<br><br>📲 **เพิ่มเพื่อนใน LINE เพื่อปรึกษาได้ทุกที่:**<br>ค้นหา LINE ID: **@144cxjcp** หรือสแกน QR Code ด้านล่าง:<br><img src='https://raw.githubusercontent.com/24kglowgold-ui/newnew/main/Thai-law.ai%20line%20bot%20QR%20Code.jpg' alt='LINE QR Code' class='w-32 h-32 mt-2 rounded-lg shadow-md'>",
+                disclaimer: "**ข้อความปฏิเสธความรับผิดชอบ:** ข้อมูลนี้ไม่ใช่คำแนะนำทางกฎหมายอย่างเป็นทางการ โปรดติดต่อทนายความมืออาชีพเพื่อรับคำแนะนำทางกฎหมายที่ถูกต้อง โดยคลิกที่ปุ่ม 'ปรึกษาทนายความ' ด้านล่าง", 
+                systemPrompt: "You are a highly specialized AI Legal Analyst focusing on Thai Law. Respond to the user's question with accuracy, utilizing search results for grounding. Your response must be generated entirely and clearly in the Thai language.",
+                privacyLink: "นโยบายความเป็นส่วนตัวและข้อกำหนดการใช้งาน (EN/TH/ZH)"
+            },
+            'english': {
+                code: 'English', title: 'Thai Law Assistant', placeholder: 'Ask your legal question about Thai Law...', sendButton: 'Send', loading: 'Processing...', ctaButton: 'Contact a Lawyer',
+                paywallMsg: "You've reached your limit of 10 free messages for today.", 
+                verifiedTitle: "Verified Lawyer Recommendation",
+                verifiedSub: "Want 100% certainty? Consult a verified professional now.",
+                greeting: "Hello! I am the Thai Law Assistant, an expert in Thai law ready to provide information and initial guidance. Do you have any questions regarding Thai law?<br><br>📲 **Add us on LINE for easy access:**<br>Search LINE ID: **@144cxjcp** or scan our QR Code below:<br><img src='https://raw.githubusercontent.com/24kglowgold-ui/newnew/main/Thai-law.ai%20line%20bot%20QR%20Code.jpg' alt='LINE QR Code' class='w-32 h-32 mt-2 rounded-lg shadow-md'>",
+                disclaimer: "**Disclaimer:** This is not formal legal advice. Please contact a lawyer professional for actual legal advice by clicking the 'Contact a Lawyer' button below.", 
+                systemPrompt: "You are a highly specialized AI Legal Analyst focusing on Thai Law. Respond to the user's question with accuracy, utilizing search results for grounding. Your response must be generated entirely and clearly in the English language.",
+                privacyLink: "Privacy Policy & Terms of Service (EN/TH/ZH)"
+            },
+            'chinese': {
+                code: 'Simplified Chinese', title: '泰国法律助理', placeholder: '输入您的法律问题...', sendButton: '发送', loading: '正在处理...', ctaButton: '联系律师',
+                paywallMsg: "您今天已达到 10 条免费消息的上限。", 
+                verifiedTitle: "认证律师推荐",
+                verifiedSub: "想要 100% 的确定性吗？立即咨询认证专业人士。",
+                greeting: "您好！我是泰国法律助理，一位泰法律专家，随时准备为您提供信息และ初步指导。您对泰国法律有什么疑问吗？<br><br>📲 **在 LINE 上添加我们以获得便捷服务：**<br>搜索 LINE ID: **@144cxjcp** หรือ扫描下方二维码：<br><img src='https://raw.githubusercontent.com/24kglowgold-ui/newnew/main/Thai-law.ai%20line%20bot%20QR%20Code.jpg' alt='LINE QR Code' class='w-32 h-32 mt-2 rounded-lg shadow-md'>",
+                disclaimer: "**免责声明：** 本信息并非正式法律建议。如需实际法律建议，请点击下方的“联系律师”按钮联系专业律师。", 
+                systemPrompt: "You are a highly specialized AI Legal Analyst focusing on Thai Law. Respond to the user's question with accuracy, utilizing search results for grounding. Your response must be generated entirely and clearly in the Simplified Chinese language (简体中文).",
+                privacyLink: "隐私政策和服务条款 (EN/TH/ZH)"
+            }
+        };
+
+        let currentLanguage = languageSelect.value;
+        let chatHistoryArray = [];
+        const MESSAGE_LIMIT = 10; 
+        let messageCount = 0;
+
+        function displayInitialGreeting() {
+            chatHistory.innerHTML = ''; 
+            const lang = LANGUAGES[currentLanguage]; 
+            addMessage('ai', lang.greeting);
+            chatHistoryArray = []; 
+            chatHistoryArray.push({ role: "model", parts: [{ text: lang.greeting }] });
+        }
+
+        function updateUI() {
+            const lang = LANGUAGES[currentLanguage];
+            appTitle.textContent = lang.title;
+            userInput.placeholder = lang.placeholder;
+            sendButton.textContent = lang.sendButton;
+            loadingText.textContent = lang.loading;
+            ctaButton.textContent = lang.ctaButton;
+            paywallText.textContent = lang.paywallMsg;
+            privacyLink.textContent = lang.privacyLink;
+        }
+
+        function showPaywall() {
+            paywallContainer.classList.remove('hidden');
+            inputContainer.classList.add('hidden');
+            if (typeof gtag === 'function') {
+                gtag('event', 'usage_limit_reached', { 'event_category': 'Freemium_Test', 'event_label': LANGUAGES[currentLanguage].code });
+            }
+        }
+
+        function addMessage(sender, text, sources = []) {
+            const messageWrapper = document.createElement('div');
+            messageWrapper.className = sender === 'user' ? 'flex justify-end' : 'flex justify-start';
+
+            const messageBubble = document.createElement('div');
+            messageBubble.className = sender === 'user' 
+                ? 'chat-bubble-user p-4 max-w-3xl break-words whitespace-pre-wrap' 
+                : 'chat-bubble-ai p-4 max-w-3xl break-words whitespace-pre-wrap shadow-md';
+            
+            if (sender === 'ai') {
+                const header = document.createElement('p');
+                header.className = 'font-semibold text-blue-600 mb-1';
+                header.textContent = `${LANGUAGES[currentLanguage].title}:`;
+                messageBubble.appendChild(header);
+            }
+
+            const textContent = document.createElement('p');
+            textContent.innerHTML = text.replace(/\n/g, '<br>');
+            messageBubble.appendChild(textContent);
+
+            if (sender === 'ai' && sources.length > 0) {
+                const sourcesList = document.createElement('div');
+                sourcesList.className = 'mt-3 pt-3 border-t border-gray-100 text-xs text-gray-500';
+                const sourcesLabel = LANGUAGES[currentLanguage].code === 'Thai' ? 'แหล่งที่มา' : LANGUAGES[currentLanguage].code === 'Simplified Chinese' ? '来源' : 'Sources';
+                sourcesList.innerHTML = `<p class="font-medium mb-1">${sourcesLabel}:</p>`;
+                sources.slice(0, 3).forEach((source, index) => {
+                    const sourceLink = document.createElement('a');
+                    sourceLink.href = source.uri; sourceLink.target = '_blank';
+                    sourceLink.className = 'block hover:text-blue-600 truncate';
+                    sourceLink.textContent = `${index + 1}. ${source.title || source.uri}`;
+                    sourcesList.appendChild(sourceLink);
+                });
+                messageBubble.appendChild(sourcesList);
+            }
+            
+            if (sender === 'ai') {
+                const disclaimerDiv = document.createElement('div');
+                disclaimerDiv.className = 'mt-4 pt-3 border-t border-red-200 text-xs text-red-700 italic font-medium'; 
+                disclaimerDiv.innerHTML = LANGUAGES[currentLanguage].disclaimer.replace(/\n/g, '<br>');
+                messageBubble.appendChild(disclaimerDiv);
+
+                if (isSponsoredTestGroup && messageCount > 0) {
+                    const lang = LANGUAGES[currentLanguage];
+                    const sponsorCard = document.createElement('div');
+                    sponsorCard.className = 'sponsored-card cursor-pointer hover:bg-green-100 transition duration-150';
+                    sponsorCard.innerHTML = `
+                        <div class="flex items-center space-x-2 mb-1">
+                            <span class="text-[10px] font-bold uppercase tracking-wider bg-green-200 text-green-800 px-1.5 py-0.5 rounded">Sponsored</span>
+                            <span class="text-sm font-bold text-green-900">${lang.verifiedTitle}</span>
+                        </div>
+                        <p class="text-xs text-green-700">${lang.verifiedSub}</p>
+                    `;
+                    
+                    sponsorCard.onclick = () => {
+                        if (typeof gtag === 'function') {
+                            gtag('event', 'verified_sponsor_click', { 'event_category': 'Sponsorship_Test', 'event_label': lang.code });
+                        }
+                        // Track click as FB Lead
+                        if (typeof fbq === 'function') { fbq('track', 'Lead'); }
+                        window.open('https://CNvTn8.short.gy/KXzjQr', '_blank');
+                    };
+                    messageBubble.appendChild(sponsorCard);
+                }
+            }
+
+            messageWrapper.appendChild(messageBubble);
+            chatHistory.appendChild(messageWrapper);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+
+        async function fetchWithRetry(payload, retries = 3) {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(proxyUrl, {
+                        method: 'POST', headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!response.ok) throw new Error(`Proxy failed: ${response.status}`);
+                    return await response.json();
+                } catch (error) {
+                    if (i === retries - 1) throw error;
+                    await new Promise(r => setTimeout(r, Math.pow(2, i) * 1000));
+                }
+            }
+        }
+
+        async function sendQuery() {
+            if (messageCount >= MESSAGE_LIMIT) {
+                showPaywall();
+                return;
+            }
+
+            const userQuery = userInput.value.trim();
+            if (userQuery === "") return;
+
+            messageCount++;
+
+            if (typeof gtag === 'function') {
+                gtag('event', 'chat_query_sent', { 'event_category': 'Chat_Interaction', 'event_label': LANGUAGES[currentLanguage].code, 'message_number': messageCount });
+            }
+
+            addMessage('user', userQuery);
+            userInput.value = '';
+            sendButton.disabled = true;
+            userInput.disabled = true;
+            loadingModal.classList.remove('hidden');
+
+            const payload = {
+                contents: [...chatHistoryArray, { role: "user", parts: [{ text: userQuery }] }],
+                tools: [{ "google_search": {} }],
+                systemInstruction: { parts: [{ text: LANGUAGES[currentLanguage].systemPrompt }] }
+            };
+
+            try {
+                const result = await fetchWithRetry(payload);
+                const candidate = result.candidates?.[0];
+                let aiResponseText = "An error occurred.";
+                let sources = [];
+
+                if (candidate?.content?.parts?.[0]?.text) {
+                    aiResponseText = candidate.content.parts[0].text;
+                    if (candidate.groundingMetadata?.groundingAttributions) {
+                        sources = candidate.groundingMetadata.groundingAttributions.map(a => ({ uri: a.web?.uri, title: a.web?.title }));
+                    }
+                }
+                
+                chatHistoryArray.push({ role: "user", parts: [{ text: userQuery }] });
+                chatHistoryArray.push({ role: "model", parts: [{ text: aiResponseText }] });
+                addMessage('ai', aiResponseText, sources);
+
+                if (messageCount >= MESSAGE_LIMIT) {
+                    showPaywall();
+                }
+
+            } catch (error) {
+                addMessage('ai', "Connection error. Please try again.");
+            } finally {
+                loadingModal.classList.add('hidden');
+                if (messageCount < MESSAGE_LIMIT) {
+                    sendButton.disabled = false;
+                    userInput.disabled = false;
+                    userInput.focus();
+                }
+            }
+        }
+
+        // --- LINE & Button Click Tracking Logic ---
+        function trackConversion(label) {
+            // Track in FB as Lead/Contact
+            if (typeof fbq === 'function') { fbq('track', 'Contact'); }
+            // Track in Google
+            if (typeof gtag === 'function') {
+                gtag('event', label, { 'event_category': 'P1_Conversion', 'event_label': LANGUAGES[currentLanguage].code });
+            }
+        }
+
+        document.getElementById('line-button-main').addEventListener('click', () => trackConversion('line_click_main'));
+        document.getElementById('line-button-float').addEventListener('click', () => trackConversion('line_click_float'));
+
+        payButton.addEventListener('click', () => {
+            if (typeof gtag === 'function') {
+                gtag('event', 'payment_intent_click', { 'event_category': 'Freemium_Test', 'event_label': LANGUAGES[currentLanguage].code });
+            }
+            window.open('https://CNvTn8.short.gy/Ze0o68', '_blank');
+        });
+
+        languageSelect.addEventListener('change', (e) => {
+            currentLanguage = e.target.value;
+            updateUI();
+            displayInitialGreeting(); 
+        });
+
+        ctaButton.addEventListener('click', () => {
+            trackConversion('contact_lawyer_click');
+            window.open('https://CNvTn8.short.gy/KXzjQr', '_blank');
+        });
+
+        sendButton.addEventListener('click', sendQuery);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !sendButton.disabled) sendQuery();
+        });
+
+        window.onload = () => {
+            updateUI();
+            displayInitialGreeting();
+            userInput.focus();
+        };
+    </script>
+</body>
+</html>
