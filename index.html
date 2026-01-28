@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ผู้ช่วยกฎหมายไทย - Thai Law Assistant</title>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L248NH8B0M"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L248NH8B0M'); 
+    </script>
+
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1835664227836305');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1835664227836305&ev=PageView&noscript=1"
+    /></noscript>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7f9;
+        }
+        .chat-bubble-user {
+            background-color: #3b82f6; 
+            color: white;
+            border-radius: 1.5rem 1.5rem 0.5rem 1.5rem;
+        }
+        .chat-bubble-ai {
+            background-color: #ffffff;
+            color: #1f2937;
+            border-radius: 1.5rem 1.5rem 1.5rem 0.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+        .sponsored-card {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 0.75rem;
+            margin-top: 1rem;
+            padding: 0.75rem;
+        }
+        .bg-line { background-color: #06C755; }
+        .hover-bg-line:hover { background-color: #05a647; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center p-4">
+
+    <div class="w-full max-w-4xl bg-white rounded-xl shadow-2xl flex flex-col h-[90vh]">
+        
+        <header class="p-4 border-b bg-gray-50 rounded-t-xl flex justify-between items-center shadow-md">
+            <h1 id="app-title" class="text-2xl font-bold text-gray-800">ผู้ช่วยกฎหมายไทย</h1>
+            
+            <div class="flex items-center space-x-2">
+                <label for="language-select" class="text-sm font-medium text-gray-600 hidden sm:block">ภาษา:</label>
+                <select id="language-select" class="p-2 rounded-lg border border-gray-300 bg-white shadow-inner focus:ring-blue-500 focus:border-blue-500 transition cursor-pointer text-sm">
+                    <option value="thai">🇹🇭 ไทย (Thai)</option>
+                    <option value="english">🇺🇸 English</option>
+                    <option value="chinese">🇨🇳 简体中文 (Simplified Chinese)</option>
+                </select>
+            </div>
+        </header>
+
+        <main id="chat-history" class="flex-grow overflow-y-auto p-6 space-y-4">
+        </main>
+
+        <footer class="p-4 border-t bg-gray-50 rounded-b-xl">
+            <div class="mb-3">
+                <a href="https://line.me/R/ti/p/@144cxjcp" target="_blank" id="line-button-main"
+                   class="flex items-center justify-center gap-2 bg-line hover-bg-line text-white font-bold py-3 px-6 rounded-xl shadow-lg transition duration-150 transform hover:scale-105">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg" alt="LINE" class="w-6 h-6">
+                    <span id="line-button-text">เพิ่มเพื่อนใน LINE (ปรึกษาฟรี)</span>
+                </a>
+            </div>
+
+            <div id="paywall-container" class="hidden mb-4 p-4 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 rounded-lg shadow-sm">
+                <p id="paywall-text" class="font-bold mb-2 text-sm"></p>
+                <button id="pay-button" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg shadow transition transform hover:scale-105">
+                    Pay 20 THB for Unlimited Daily Access
+                </button>
+            </div>
+
+            <button id="cta-button" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 mb-3 rounded-xl shadow-lg transition transform hover:scale-105">
+                ติดต่อทนายความ
+            </button>
+            
+            <div id="input-container" class="flex space-x-3">
+                <input type="text" id="user-input" class="flex-grow p-3 border border-gray-300 rounded-xl shadow-inner focus:ring-blue-500 transition" placeholder="พิมพ์คำถามทางกฎหมายของคุณ..." autocomplete="off">
+                <button id="send-button" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transition transform hover:scale-105 disabled:bg-gray-400">
+                    ส่ง
+                </button>
+            </div>
+
+            <div class="mt-4 text-center">
+                <a href="/privacy" id="privacy-link" class="text-[10px] text-gray-400 hover:text-blue-500 underline transition uppercase tracking-wider">
+                    Privacy Policy & Terms of Service (EN/TH/ZH)
+                </a>
+            </div>
+        </footer>
+    </div>
+
+    <div id="loading-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-white p-6 rounded-lg shadow-xl flex items-center space-x-3">
+            <svg class="animate-spin h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span id="loading-text" class="text-gray-700 font-medium">กำลังประมวลผล...</span>
+        </div>
+    </div>
+
+    <script>
+        const proxyUrl = "/.netlify/functions/gemini-proxy";
+        
+        const chatHistory = document.getElementById('chat-history');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+        const languageSelect = document.getElementById('language-select');
+        const appTitle = document.getElementById('app-title');
+        const loadingModal = document.getElementById('loading-modal');
+        const loadingText = document.getElementById('loading-text');
+        const ctaButton = document.getElementById('cta-button'); 
+        const lineBtnText = document.getElementById('line-button-text');
+        const paywallContainer = document.getElementById('paywall-container');
+        const paywallText = document.getElementById('paywall-text');
+        const payButton = document.getElementById('pay-button');
+        const inputContainer = document.getElementById('input-container');
+        const privacyLink = document.getElementById('privacy-link');
+
+        const isSponsoredTestGroup = Math.random() < 0.5;
+
+        const LANGUAGES = {
+            'thai': {
+                code: 'Thai', title: 'ผู้ช่วยกฎหมายไทย', placeholder: 'พิมพ์คำถามทางกฎหมายของคุณ...', sendButton: 'ส่ง', loading: 'กำลังประมวลผล...', ctaButton: 'ปรึกษาทนายความ',
+                lineBtn: 'เพิ่มเพื่อนใน LINE (ปรึกษาฟรี)',
+                paywallMsg: "คุณได้ใช้งานครบ 10 ข้อความสำหรับโควต้าฟรีในวันนี้แล้ว", 
+                verifiedTitle: "ทนายความที่ได้รับการยืนยัน",
+                verifiedSub: "ต้องการความมั่นใจ 100% หรือไม่? ปรึกษาผู้เชี่ยวชาญทันที",
+                greeting: "สวัสดีค่ะ ดิฉันคือผู้ช่วยกฎหมายไทย ผู้เชี่ยวชาญด้านกฎหมายไทยที่พร้อมให้ข้อมูลและคำแนะนำเบื้องต้นค่ะ ท่านมีคำถามใดเกี่ยวกับกฎหมายไทยหรือไม่คะ?<br><br>📲 **เพิ่มเพื่อนใน LINE เพื่อปรึกษาได้ทุกที่:**<br>ค้นหา LINE ID: **@144cxjcp** หรือสแกน QR Code ด้านล่าง:<br><img src='https://raw.githubusercontent.com/24kglowgold-ui/newnew/main/Thai-law.ai%20line%20bot%20QR%20Code.jpg' alt='LINE QR Code' class='w-32 h-32 mt-2 rounded-lg shadow-md'>",
+                disclaimer: "**ข้อความปฏิเสธความรับผิดชอบ:** ข้อมูลนี้ไม่ใช่คำแนะนำทางกฎหมายอย่างเป็นทางการ โปรดติดต่อทนายความมืออาชีพเพื่อรับคำแนะนำทางกฎหมายที่ถูกต้อง โดยคลิกที่ปุ่ม 'ปรึกษาทนายความ' ด้านล่าง", 
+                systemPrompt: "You are a highly specialized AI Legal Analyst focusing on Thai Law. Respond to the user's question with accuracy, utilizing search results for grounding. Your response must be generated entirely and clearly in the Thai language.",
+                privacyLink: "นโยบายความเป็นส่วนตัวและข้อกำหนดการใช้งาน (EN/TH/ZH)"
+            },
+            'english': {
+                code: 'English', title: 'Thai Law Assistant', placeholder: 'Ask your legal question about Thai Law...', sendButton: 'Send', loading: 'Processing...', ctaButton: 'Contact a Lawyer',
+                lineBtn: 'Add Friend on LINE (Free Consult)',
+                paywallMsg: "You've reached your limit of 10 free messages for today.", 
+                verifiedTitle: "Verified Lawyer Recommendation",
+                verifiedSub: "Want 100% certainty? Consult a verified professional now.",
+                greeting: "Hello! I am the Thai Law Assistant, an expert in Thai law ready to provide information and initial guidance. Do you have any questions regarding Thai law?<br><br>📲 **Add us on LINE for easy access:**<br>Search LINE ID: **@144cxjcp** or scan our QR Code below:<br><img src='https://raw.githubusercontent.com/24kglowgold-ui/newnew/main/Thai-law.ai%20line%20bot%20QR%20Code.jpg' alt='LINE QR Code' class='w-32 h-32 mt-2 rounded-lg shadow-md'>",
+                disclaimer: "**Disclaimer:** This is not formal legal advice. Please contact a lawyer professional for actual legal advice by clicking the 'Contact a Lawyer' button below.", 
+                systemPrompt: "You are a highly specialized AI Legal Analyst focusing on Thai Law. Respond to the user's question with accuracy, utilizing search results for grounding. Your response must be generated entirely and clearly in the English language.",
+                privacyLink: "Privacy Policy & Terms of Service (EN/TH/ZH)"
+            },
+            'chinese': {
+                code: 'Simplified Chinese', title: '泰国法律助理', placeholder: '输入您的法律问题...', sendButton: '发送', loading: '正在处理...', ctaButton: '联系律师',
+                lineBtn: '在 LINE 上添加好友 (免费咨询)',
+                paywallMsg: "您今天已达到 10 条免费消息的上限。", 
+                verifiedTitle: "认证律师推荐",
+                verifiedSub: "想要 100% 的确定性吗？立即咨询认证专业人士。",
+                greeting: "您好！我是泰国法律助理，一位泰法律专家，随时准备为您提供信息และ初步指导。您对泰国法律有什么疑问吗？<br><br>📲 **在 LINE 上添加我们以获得便捷服务：**<br>搜索 LINE ID: **@144cxjcp** หรือ扫描下方二维码：<br><img src='https://raw.githubusercontent.com/24kglowgold-ui/newnew/main/Thai-law.ai%20line%20bot%20QR%20Code.jpg' alt='LINE QR Code' class='w-32 h-32 mt-2 rounded-lg shadow-md'>",
+                disclaimer: "**免责声明：** 本信息并非正式法律建议。如需实际法律建议，请点击下方的“联系律师”按钮联系专业律师。", 
+                systemPrompt: "You are a highly specialized AI Legal Analyst focusing on Thai Law. Respond to the user's question with accuracy, utilizing search results for grounding. Your response must be generated entirely and clearly in the Simplified Chinese language (简体中文).",
+                privacyLink: "隐私政策和服务条款 (EN/TH/ZH)"
+            }
+        };
+
+        let currentLanguage = languageSelect.value;
+        let chatHistoryArray = [];
+        const MESSAGE_LIMIT = 10; 
+        let messageCount = 0;
+
+        function displayInitialGreeting() {
+            chatHistory.innerHTML = ''; 
+            const lang = LANGUAGES[currentLanguage]; 
+            addMessage('ai', lang.greeting);
+            chatHistoryArray = []; 
+            chatHistoryArray.push({ role: "model", parts: [{ text: lang.greeting }] });
+        }
+
+        function updateUI() {
+            const lang = LANGUAGES[currentLanguage];
+            appTitle.textContent = lang.title;
+            userInput.placeholder = lang.placeholder;
+            sendButton.textContent = lang.sendButton;
+            loadingText.textContent = lang.loading;
+            ctaButton.textContent = lang.ctaButton;
+            lineBtnText.textContent = lang.lineBtn; // Update LINE Button Text
+            paywallText.textContent = lang.paywallMsg;
+            privacyLink.textContent = lang.privacyLink;
+        }
+
+        // --- Event Tracking & Logic ---
+        function trackConversion(label) {
+            if (typeof fbq === 'function') { fbq('track', 'Contact'); }
+            if (typeof gtag === 'function') {
+                gtag('event', label, { 'event_category': 'P1_Conversion', 'event_label': LANGUAGES[currentLanguage].code });
+            }
+        }
+
+        document.getElementById('line-button-main').addEventListener('click', () => trackConversion('line_click'));
+
+        // Rest of your functions (showPaywall, addMessage, sendQuery, etc.) remain as before.
+        // [Existing functions from previous version...]
