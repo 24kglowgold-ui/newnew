@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ผู้ช่วยกฎหมายไทย - Thai Law Assistant</title>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L248NH8B0M"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L248NH8B0M'); 
+    </script>
+
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1835664227836305');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1835664227836305&ev=PageView&noscript=1"
+    /></noscript>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7f9;
+        }
+        .chat-bubble-user {
+            background-color: #3b82f6; /* Blue-500 */
+            color: white;
+            border-radius: 1.5rem 1.5rem 0.5rem 1.5rem;
+        }
+        .chat-bubble-ai {
+            background-color: #ffffff;
+            color: #1f2937; /* Gray-800 */
+            border-radius: 1.5rem 1.5rem 1.5rem 0.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+        .sponsored-card {
+            background-color: #f0fdf4; /* Green-50 */
+            border: 1px solid #bbf7d0; /* Green-200 */
+            border-radius: 0.75rem;
+            margin-top: 1rem;
+            padding: 0.75rem;
+        }
+        /* Official LINE Brand Color */
+        .bg-line { background-color: #06C755; }
+        .hover-bg-line:hover { background-color: #05a647; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center p-4">
+
+    <div class="w-full max-w-4xl bg-white rounded-xl shadow-2xl flex flex-col h-[90vh]">
+        
+        <header class="p-4 border-b bg-gray-50 rounded-t-xl flex justify-between items-center shadow-md">
+            <h1 id="app-title" class="text-2xl font-bold text-gray-800">ผู้ช่วยกฎหมายไทย</h1>
+            
+            <div class="flex items-center space-x-2">
+                <label for="language-select" class="text-sm font-medium text-gray-600 hidden sm:block">ภาษา:</label>
+                <select id="language-select" class="p-2 rounded-lg border border-gray-300 bg-white shadow-inner focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out cursor-pointer text-sm">
+                    <option value="thai">🇹🇭 ไทย (Thai)</option>
+                    <option value="english">🇺🇸 English</option>
+                    <option value="chinese">🇨🇳 简体中文 (Simplified Chinese)</option>
+                </select>
+            </div>
+        </header>
+
+        <main id="chat-history" class="flex-grow overflow-y-auto p-6 space-y-4">
+        </main>
+
+        <footer class="p-4 border-t bg-gray-50 rounded-b-xl">
+            <div class="mb-3">
+                <a href="https://line.me/R/ti/p/@144cxjcp" target="_blank" id="line-button"
+                   class="flex items-center justify-center gap-2 bg-line hover-bg-line text-white font-bold py-3 px-6 rounded-xl shadow-lg transition duration-150 transform hover:scale-105">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg" alt="LINE" class="w-6 h-6">
+                    <span id="line-button-text">เพิ่มเพื่อนใน LINE (ปรึกษาฟรี)</span>
+                </a>
+            </div>
+
+            <div id="paywall-container" class="hidden mb-4 p-4 bg-yellow-50 border-l-4 border-yellow
